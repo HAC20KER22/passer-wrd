@@ -21,8 +21,14 @@ To download these tools you need the following libraries
 
 Downloading libraries:
 
-``` python3 -m pip install bcrypt ```
-``` python3 -m pip install pyfiglet ```
-``` python3 -m pip install termcolor ```
+``` 
+python3 -m pip install bcrypt
+```
+```
+python3 -m pip install pyfiglet
+```
+``` 
+python3 -m pip install termcolor
+```
 
  
