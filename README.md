@@ -7,7 +7,8 @@ It currently supports:
 3. SHA-1
 4. SHA - 256
 5. SHA - 512
-6. 
+6. argon2
+7. 
 
 This tool takes full advantage of the power of the python libraries. 
 To download these tools you need the following libraries
@@ -30,5 +31,6 @@ python3 -m pip install pyfiglet
 ``` 
 python3 -m pip install termcolor
 ```
+
 
  
