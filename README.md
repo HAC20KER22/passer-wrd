@@ -32,5 +32,9 @@ python3 -m pip install pyfiglet
 python3 -m pip install termcolor
 ```
 
+If you want to add a hashing algorithm to that you also need to change
+1. function check_type_of_hash - Here you need to get the defining factor of the hash
+2. function process_chunk in the class Compute_hash to compute the hash by adding another elif condition for the hash_type
+3. also add a text file for the computed hash to act as cache.
 
  
