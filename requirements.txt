@@ -1,0 +1,12 @@
+hashlib
+pyfiglet
+bcrypt
+queue
+termcolor
+threading
+time
+sys
+re
+time
+concurrent.futures
+argon2
