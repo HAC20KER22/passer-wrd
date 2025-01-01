@@ -136,9 +136,10 @@ def loading(stop_event):
         time.sleep(0.1)
         print("\r", end="", flush=True)
         k = (k + 1) % 4
-
+    
     print("\r" + " " * 20, end="", flush=True)  # Clear the line
     print("\r", end="", flush=True)  # Move to the next line
+    print("\033[?25h")
 
 
 def calculating_hash(hash_type, input_hash, shared_password, stop_event, input_threads):
@@ -156,9 +157,9 @@ def calculating_hash(hash_type, input_hash, shared_password, stop_event, input_t
 
     password = shared_password.get()
     if password != "not found":
-        print("\n\nPassword Found: ", colored(password, "green"), sep="")
+        print("\n\nPassword Found: ", "\033[1m" + colored(password, "green"), sep="")
         f = open(hash_type + ".txt", "a+")
-        f.write("\n" + input_hash + ":" + "\033[1m" + password)
+        f.write("\n" + input_hash + ":" + password)
         f.close()
     else:
         print("\n\nSorry!! Password was not found.")
