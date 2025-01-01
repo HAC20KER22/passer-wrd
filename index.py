@@ -137,6 +137,10 @@ def loading(stop_event):
         print("\r", end="", flush=True)
         k = (k + 1) % 4
 
+    print("\r" + " " * 20, end="", flush=True)  # Clear the line
+    print("\r", end="", flush=True)  # Move to the next line
+
+
 def calculating_hash(hash_type, input_hash, shared_password, stop_event, input_threads):
     shared_password = Queue()
     stop_event = Event()
@@ -144,44 +148,52 @@ def calculating_hash(hash_type, input_hash, shared_password, stop_event, input_t
     obj = Compute_hash(hash_type, input_hash, shared_password, stop_event, input_threads)
     obj.start()
 
-    # Run the loading spinner in the main thread
     loading_thread = Thread(target=loading, args=(stop_event,))
     loading_thread.start()
 
-    obj.join()  # Wait for the hash calculation to finish
-    stop_event.set()  # Stop the loading spinner
+    obj.join()
+    stop_event.set()
 
     password = shared_password.get()
     if password != "not found":
         print("\n\nPassword Found: ", colored(password, "green"), sep="")
         f = open(hash_type + ".txt", "a+")
-        f.write("\n" + input_hash + ":" + password)
+        f.write("\n" + input_hash + ":" + "\033[1m" + password)
         f.close()
-        sys.exit(0)
     else:
         print("\n\nSorry!! Password was not found.")
+
 
 if __name__ == "__main__":
     banner = colored(pyfiglet.figlet_format("passer-wrd", font="slant"), "red")
     print(banner)
 
-    input_hash = input(colored("\033[1m" + "Enter the hash in hex format: ", "green")) # \033[1m is for bold text
-    input_threads = int(input("Enter the number of threads (minimum = 10): ")) 
-    if input_threads < 10:
-        input_threads = 10
+    choice = "yes"
+    while choice=="yes":
+        input_hash = input(colored("\033[1m" + "Enter the hash in hex format: ", "green")) # \033[1m is for bold text
+        input_threads = int(input("Enter the number of threads (minimum = 10): ")) 
+        if input_threads < 10:
+            input_threads = 10
 
-    # Checking Hash Type
-    hash_type = check_type_of_hash(input_hash)
-    if hash_type == "":
-        print("\nSorry the hash you have provided is currently not supported by this tool.")
-        sys.exit(0)
+        # Checking Hash Type
+        hash_type = check_type_of_hash(input_hash)
+        if hash_type == "":
+            print("\nSorry the hash you have provided is currently not supported by this tool.")
+            sys.exit(0)
 
-    print("\nFigured out the hash: " + hash_type)
+        print("\nFigured out the hash: " + hash_type)
 
-    shared_password = Queue()
-    flag = cache_calling(hash_type, input_hash, shared_password)
+        shared_password = Queue()
+        flag = cache_calling(hash_type, input_hash, shared_password)
 
-    print("\nCannot find in cache.")
+        print("\nCannot find in cache.")
 
-    # Start the hash calculation with the loading spinner
-    calculating_hash(hash_type, input_hash, shared_password, Event(), input_threads)
+        # Start the hash calculation with the loading spinner
+        calculating_hash(hash_type, input_hash, shared_password, Event(), input_threads)
+        
+        choice = input("To enter another hash (yes/N): ")
+
+    print("\n\n GoodBye!! \U0001F44B")
+    print("\n This session will end in 10 seconds")
+    sleep(10)
+        
