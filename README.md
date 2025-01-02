@@ -11,7 +11,7 @@ It currently supports:
 7. 
 
 This tool takes full advantage of the power of the python libraries. 
-
+It implements threading and hashing techniques to make sure we get the result in the fastest way possible.
 
 To download the needed libraries: 
 
