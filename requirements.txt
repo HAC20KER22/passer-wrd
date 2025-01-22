@@ -1,12 +1,4 @@
-hashlib
 pyfiglet
 bcrypt
-queue
 termcolor
-threading
-time
-sys
-re
-time
-concurrent.futures
-argon2
+argon2-cffi
