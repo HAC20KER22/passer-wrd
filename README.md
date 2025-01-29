@@ -24,5 +24,8 @@ If you want to add a hashing algorithm to that you also need to change
 2. function process_chunk in the class Compute_hash to compute the hash by adding another elif condition for the hash_type
 3. also add a text file for the computed hash to act as cache.
 
-This tool currently is not available in the linux distro.
+To use it on linux just do
+```
+sudo pip install -r requirements.txt
+```
 
