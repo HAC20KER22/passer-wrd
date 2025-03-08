@@ -10,12 +10,17 @@ import re
 import time
 import concurrent.futures
 from argon2 import PasswordHasher
+import os
+from passlib.hash import nthash
 
 class Cache(Thread):
     def __init__(self, hash_received, hash_type, shared_var):
         super().__init__()
         self.r_hash = hash_received
         self.path = hash_type + ".txt"
+        if not os.path.exists(self.path):
+            with open(self.path, 'w') as file:
+                pass
         self.shared = shared_var
     
     def run(self):
@@ -89,9 +94,14 @@ class Compute_hash(Thread):
                     self.shared.put(i)
                     self.stop_event.set()
                     return
+            elif self.hash_type == "ntlm":
+                if nthash.hash(i) == self.hash_received:
+                    self.shared.put(i)
+                    self.stop_even.set()
+                    return
 
     def run(self):
-        with open("rockyou.txt", "r", encoding="MacRoman") as file_obj:
+        with open("short.txt", "r", encoding="MacRoman") as file_obj:
             lines = file_obj.readlines()
 
         chunk_size = len(lines) // self.threads
@@ -105,6 +115,8 @@ class Compute_hash(Thread):
 
 def check_type_of_hash(r_hash):
     if len(r_hash) == 32:
+        if (input("Is this a system hash (Y/n): ")) == "Y":
+            return "ntlm"
         return "md5"
     elif len(r_hash) == 64:
         return 'sha256'
@@ -125,7 +137,7 @@ def cache_calling(hash_type, hash_received, shared_password):
     password = shared_password.get()
     if password != "not found":
         print("\n\nThe hash was already computed! \nThe password is", colored("\033[1m" + password, "green"))
-        sys.exit(0)
+        return True
     return False
 
 def loading(stop_event):
@@ -145,7 +157,7 @@ def loading(stop_event):
 def calculating_hash(hash_type, input_hash, shared_password, stop_event, input_threads):
     shared_password = Queue()
     stop_event = Event()
-
+    start_time = time.time()
     obj = Compute_hash(hash_type, input_hash, shared_password, stop_event, input_threads)
     obj.start()
 
@@ -154,10 +166,11 @@ def calculating_hash(hash_type, input_hash, shared_password, stop_event, input_t
 
     obj.join()
     stop_event.set()
-
+    end_time = time.time()
     password = shared_password.get()
     if password != "not found":
         print("\n\nPassword Found: ", "\033[1m" + colored(password, "green"), sep="")
+        print("\nCalculated the password in ","\033[1m"+colored((end_time - start_time),"green"),sep="")
         f = open(hash_type + ".txt", "a+")
         f.write("\n" + input_hash + ":" + password)
         f.close()
@@ -167,14 +180,18 @@ def calculating_hash(hash_type, input_hash, shared_password, stop_event, input_t
 
 if __name__ == "__main__":
     banner = colored(pyfiglet.figlet_format("passer-wrd", font="slant"), "red")
-    print(banner)
-
-    choice = "yes"
-    while choice=="yes":
-        input_hash = input(colored("\033[1m" + "Enter the hash in hex format: ", "green")) # \033[1m is for bold text
-        input_threads = int(input("Enter the number of threads (minimum = 10): ")) 
+    print(banner,end="")
+    print(colored("                 Created by: HACK20KER22\n","cyan"))
+    sleep(2)
+    choice = "Y"
+    while choice=="Y":
+        input_hash = input(colored("\033[1m" + "Enter the hash in the standard format: ", "green")) # \033[1m is for bold text
+        print(open("banner.txt").read(), end="")
+        print("\n")
+        print(colored("You need to understand that just increasing the number of threads won't guarantee a faster result, \n As the number of threads the time to change between threads will also increase. ","red"))
+        input_threads = int(input(colored("\033[1m" + "Enter the number of threads [100 .. 10000] (default = 100): ","green"))) 
         if input_threads < 10:
-            input_threads = 10
+            input_threads = 100
 
         # Checking Hash Type
         hash_type = check_type_of_hash(input_hash)
@@ -186,15 +203,14 @@ if __name__ == "__main__":
 
         shared_password = Queue()
         flag = cache_calling(hash_type, input_hash, shared_password)
-
-        print("\nCannot find in cache.")
-
-        # Start the hash calculation with the loading spinner
-        calculating_hash(hash_type, input_hash, shared_password, Event(), input_threads)
-        
-        choice = input("To enter another hash (yes/N): ")
+         
+        if not flag:
+            print("\nCannot find in cache.")
+            # Start the hash calculation with the loading spinner
+            calculating_hash(hash_type, input_hash, shared_password, Event(), input_threads)
+        else:
+            choice = input("\n\nTo enter another hash (Y/n): ")
 
     print("\n\n GoodBye!! \U0001F44B")
     print("\n This session will end in 10 seconds")
     sleep(10)
-        
