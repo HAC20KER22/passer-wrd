@@ -186,6 +186,15 @@ if __name__ == "__main__":
     choice = "Y"
     while choice=="Y":
         input_hash = input(colored("\033[1m" + "Enter the hash in the standard format: ", "green")) # \033[1m is for bold text
+        
+        # Checking Hash Type
+        hash_type = check_type_of_hash(input_hash)
+        if hash_type == "":
+            print(colored("\nSorry the hash you have provided is currently not supported by this tool.","red"))
+            continue
+
+        print("\nFigured out the hash: " + hash_type)
+        
         print(open("banner.txt").read(), end="")
         print("\n")
         print(colored("You need to understand that just increasing the number of threads won't guarantee a faster result, \n As the number of threads the time to change between threads will also increase. ","red"))
@@ -193,13 +202,7 @@ if __name__ == "__main__":
         if input_threads < 10:
             input_threads = 100
 
-        # Checking Hash Type
-        hash_type = check_type_of_hash(input_hash)
-        if hash_type == "":
-            print("\nSorry the hash you have provided is currently not supported by this tool.")
-            sys.exit(0)
-
-        print("\nFigured out the hash: " + hash_type)
+        
 
         shared_password = Queue()
         flag = cache_calling(hash_type, input_hash, shared_password)
