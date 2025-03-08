@@ -1,4 +1,5 @@
 pyfiglet
 bcrypt
 termcolor
-argon2-cffi
+argon2
+passlib
