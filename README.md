@@ -13,6 +13,13 @@ It currently supports:
 This tool takes full advantage of the power of the python libraries. 
 It implements threading and hashing techniques to make sure we get the result in the fastest way possible.
 
+You will need the rockyou.txt file in the same folder as the program, to download that
+
+```
+curl -L -o rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
+```
+
+
 To download the needed libraries: 
 
 ```
