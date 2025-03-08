@@ -8,7 +8,7 @@ It currently supports:
 4. SHA - 256
 5. SHA - 512
 6. argon2
-7. 
+7. NTLM System Hash
 
 This tool takes full advantage of the power of the python libraries. 
 It implements threading and hashing techniques to make sure we get the result in the fastest way possible.
