@@ -19,12 +19,25 @@ You will need the rockyou.txt file in the same folder as the program, to downloa
 curl -L -o rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 ```
 
+For the command line based application you just need to install the required libraries:
+```
+pip3 install -r requirements.txt
+```
 
-To download the needed libraries: 
-
+For the streamlit application you:
 ```
 pip install -r requirements.txt
 ```
+```
+pip install streamlit passlib bcrypt argon2-cffi
+```
+
+To run the program:
+```
+streamlit run .\script.py
+```
+
+
 
 If you want to add a hashing algorithm to that you also need to change
 1. function check_type_of_hash - Here you need to get the defining factor of the hash
