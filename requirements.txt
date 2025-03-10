@@ -1,0 +1,7 @@
+pyfiglet
+bcrypt
+termcolor
+argon2
+argon2-cffi
+passlib
+streamlit
