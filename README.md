@@ -1,6 +1,12 @@
 # passer-wrd
 
 This a python tool to crack password hashes.
+This tool can be run in 2 ways:
+1. Command line
+      Here you can simply run the python script and crack away....
+2. Web Application
+      Here you can run the program on localhost to get a better GUI.
+
 It currently supports:
 1. MD5
 2. bcrypt
