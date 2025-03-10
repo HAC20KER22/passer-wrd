@@ -1,9 +1,9 @@
 import streamlit as st
 from index import check_type_of_hash, parallel_hash_cracker
 
-st.set_page_config(page_title="Hash Cracker", page_icon="🔓")
+st.set_page_config(page_title="Passer-wrd", page_icon="🔓")
 
-st.title("🔓 Hash Cracker")
+st.title("🔓 Passer-wrd")
 
 
 input_hash = st.text_input("", placeholder="Enter the Hash")
