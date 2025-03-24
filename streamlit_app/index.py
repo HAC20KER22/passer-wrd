@@ -74,7 +74,5 @@ def parallel_hash_cracker(hash_type, hash_received, threads, wordlist):
                 stop_event.set()
                 with open(hash_type + ".txt", "a") as file:
                     file.write(f"{hash_received}:{result}\n")
-                with open(hash_type + ".txt", "a") as file:
-                    file.write(f"{hash_received}:{result}")
                 return result
     return None
