@@ -195,7 +195,7 @@ if __name__ == "__main__":
 
         print("\nFigured out the hash: " + hash_type)
         
-        print(open("banner.txt").read(), end="")
+        print(open("sqecs.txt").read(), end="")
         print("\n")
         print(colored("You need to understand that just increasing the number of threads won't guarantee a faster result, \n As the number of threads the time to change between threads will also increase. ","red"))
         input_threads = int(input(colored("\033[1m" + "Enter the number of threads [100 .. 10000] (default = 100): ","green"))) 
